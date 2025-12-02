@@ -28,7 +28,7 @@ export default function Footer() {
           <div className="md:col-span-2 flex flex-col gap-3">
             <div className="flex items-center gap-3">
               <Image
-                src="/images/navbar/logo.png"
+                src="/images/navbar/Logo.png"
                 alt="Devi Spicy Chicken Pickles"
                 width={70}
                 height={70}
