@@ -97,7 +97,7 @@ export default function HeroSection() {
         <div className="relative flex justify-center md:justify-end">
           <div className="relative w-full max-w-xs scale-[1.55] translate-y-5 2xl:translate-y-18 sm:max-w-sm md:max-w-md 2xl:scale-[1.55] lg:max-w-lg xl:max-w-xl aspect-[4/3]">
             <Image
-              src="/images/herosection/newpic-photoroom.png"
+              src="/images/herosection/newpic-Photoroom.png"
               alt="Delicious food"
               fill
               className="object-contain drop-shadow-xl"

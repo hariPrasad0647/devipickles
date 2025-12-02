@@ -62,7 +62,7 @@ export default function Navbar() {
           {/* LOGO */}
           <div className="flex items-center scale-[0.78] sm:scale-[0.50] md:scale-[0.80] lg:scale-[1.0]">
             <Image
-              src="/images/navbar/logo.png"
+              src="/images/navbar/Logo.png"
               alt="Logo"
               width={90}
               height={90}
