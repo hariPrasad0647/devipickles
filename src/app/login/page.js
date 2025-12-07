@@ -1,12 +1,22 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const OTP_LENGTH = 6;
 
-export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
+// ✅ Page component now just provides a Suspense boundary
+export default function LoginForm(props) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginFormInner {...props} />
+    </Suspense>
+  );
+}
+
+// ✅ All your original logic moved here, unchanged
+function LoginFormInner({ onSuccess, redirectTo: redirectProp }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = redirectProp ?? searchParams?.get("redirect") ?? "/";
@@ -20,7 +30,9 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
 
   const API_BASE = "http://localhost:3000";
 
-  const inputsRef = useRef(Array.from({ length: OTP_LENGTH }, () => React.createRef()));
+  const inputsRef = useRef(
+    Array.from({ length: OTP_LENGTH }, () => React.createRef())
+  );
 
   function getOtpString() {
     return otpBoxes.join("").trim();
@@ -51,7 +63,9 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
       }
 
       if (!res.ok || !data?.success) {
-        throw new Error(data?.message || `Failed to send OTP (status ${res.status})`);
+        throw new Error(
+          data?.message || `Failed to send OTP (status ${res.status})`
+        );
       }
 
       if (!data.exists) {
@@ -104,7 +118,9 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
       }
 
       if (!res.ok || !data?.success) {
-        throw new Error(data?.message || `Failed to verify OTP (status ${res.status})`);
+        throw new Error(
+          data?.message || `Failed to verify OTP (status ${res.status})`
+        );
       }
 
       setMessage("Login successful!");
@@ -113,7 +129,10 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
         try {
           localStorage.setItem("user", JSON.stringify(data.user));
         } catch (storageErr) {
-          console.error("[login handleVerifyOtp] localStorage error:", storageErr);
+          console.error(
+            "[login handleVerifyOtp] localStorage error:",
+            storageErr
+          );
         }
       }
 
@@ -121,7 +140,10 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
         try {
           localStorage.setItem("authToken", data.token);
         } catch (storageErr) {
-          console.error("[login handleVerifyOtp] token localStorage error:", storageErr);
+          console.error(
+            "[login handleVerifyOtp] token localStorage error:",
+            storageErr
+          );
         }
       }
 
@@ -195,15 +217,22 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
   }
 
   function handlePaste(e) {
-    const paste = (e.clipboardData || window.clipboardData)?.getData("text") || "";
+    const paste =
+      (e.clipboardData || window.clipboardData)?.getData("text") || "";
     const digits = paste.replace(/\D/g, "").slice(0, OTP_LENGTH);
     if (!digits) return;
     e.preventDefault();
     const chars = digits.split("");
-    const newBoxes = Array.from({ length: OTP_LENGTH }, (_, i) => chars[i] || "");
+    const newBoxes = Array.from(
+      { length: OTP_LENGTH },
+      (_, i) => chars[i] || ""
+    );
     setOtpBoxes(newBoxes);
     const focusIndex = Math.min(digits.length, OTP_LENGTH - 1);
-    setTimeout(() => inputsRef.current[focusIndex]?.current?.focus?.(), 20);
+    setTimeout(
+      () => inputsRef.current[focusIndex]?.current?.focus?.(),
+      20
+    );
   }
 
   return (
@@ -211,7 +240,9 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
       <h2 className="font-['Playfair_Display'] text-2xl font-semibold text-center text-[#2a160f]">
         {step === 1 ? "Login to your account" : "Verify OTP"}
       </h2>
-      <p className="mt-2 text-center text-xs text-gray-500">Use your email to login quickly.</p>
+      <p className="mt-2 text-center text-xs text-gray-500">
+        Use your email to login quickly.
+      </p>
 
       <div className="mt-3 mb-2 text-center">
         <Link href="/signup">
@@ -221,10 +252,15 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
         </Link>
       </div>
 
-      <form onSubmit={step === 1 ? handleSendOtp : handleVerifyOtp} className="mt-4 space-y-4">
+      <form
+        onSubmit={step === 1 ? handleSendOtp : handleVerifyOtp}
+        className="mt-4 space-y-4"
+      >
         {step === 1 && (
           <div className="space-y-1 px-2">
-            <label className="text-xs font-medium text-gray-700">Email</label>
+            <label className="text-xs font-medium text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               value={email}
@@ -239,14 +275,23 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
         {step === 2 && (
           <>
             <div className="space-y-1 px-2">
-              <label className="text-xs font-medium text-gray-700">Enter OTP</label>
+              <label className="text-xs font-medium text-gray-700">
+                Enter OTP
+              </label>
 
-              <div className="flex gap-2 justify-center mt-2" onPaste={handlePaste} role="group" aria-label="OTP input">
+              <div
+                className="flex gap-2 justify-center mt-2"
+                onPaste={handlePaste}
+                role="group"
+                aria-label="OTP input"
+              >
                 {otpBoxes.map((val, idx) => (
                   <input
                     key={idx}
                     aria-label={`OTP digit ${idx + 1}`}
-                    ref={(el) => (inputsRef.current[idx].current = el)}
+                    ref={(el) =>
+                      (inputsRef.current[idx].current = el)
+                    }
                     value={val}
                     onChange={(e) => handleOtpChange(e, idx)}
                     onKeyDown={(e) => handleOtpKeyDown(e, idx)}
@@ -270,8 +315,16 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
           </>
         )}
 
-        {error && <div className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-600">{error}</div>}
-        {message && <div className="rounded-md bg-green-50 px-3 py-2 text-[12px] text-green-700">{message}</div>}
+        {error && (
+          <div className="rounded-md bg-red-50 px-3 py-2 text-[12px] text-red-600">
+            {error}
+          </div>
+        )}
+        {message && (
+          <div className="rounded-md bg-green-50 px-3 py-2 text-[12px] text-green-700">
+            {message}
+          </div>
+        )}
 
         {/* Primary button (always visible, id used to trigger Enter) */}
         <div className="flex justify-center">
@@ -281,7 +334,13 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
             disabled={loading}
             className="inline-block w-40 rounded-full bg-[#f34332] py-2.5 text-sm font-semibold text-white shadow-md hover:scale-[1.02] transform transition-transform duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {loading ? (step === 1 ? "Sending..." : "Verifying...") : step === 1 ? "Send OTP" : "Verify & Continue"}
+            {loading
+              ? step === 1
+                ? "Sending..."
+                : "Verifying..."
+              : step === 1
+              ? "Send OTP"
+              : "Verify & Continue"}
           </button>
         </div>
       </form>
