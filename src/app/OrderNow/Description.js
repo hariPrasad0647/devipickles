@@ -2,7 +2,7 @@
 import React from "react";
 
 /**
- * Responsive Product description component.
+ *
  * - `playfairClass` lets you pass your Playfair_Display class for the heading.
  * - Typography and padding scale with Tailwind responsive classes.
  */
