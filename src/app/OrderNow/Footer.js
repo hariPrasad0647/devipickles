@@ -63,7 +63,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#Ingredients"
+                  href="/#ingredients"
                   className="hover:text-[#FF3E3E] transition"
                 >
                   Our Ingredients

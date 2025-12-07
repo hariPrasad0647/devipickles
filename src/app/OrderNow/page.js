@@ -5,6 +5,10 @@ import React, { useState, useMemo, useEffect } from "react";
 import OrderSummaryPopup from "./OrderSummaryPopUp";
 import { loadRazorpayScript } from "../utils/razorpay";
 import { Playfair_Display, DM_Sans } from "next/font/google";
+import ProductDescription from "./Description";
+import Footer from "./Footer";
+import FAQs from "./FAQ";
+import { toast } from "react-hot-toast";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -21,9 +25,9 @@ const dmSans = DM_Sans({
 const API_BASE = "http://localhost:3000";
 
 const WEIGHT_OPTIONS = [
-  { id: "250g", label: "250gm", price: 279, img: "/images/offers/image.png" },
-  { id: "500g", label: "500gm", price: 499, img: "/images/offers/image.png" },
-  { id: "1kg", label: "1kg", price: 899, img: "/images/offers/image.png" },
+  { id: "250g", label: "250gm", price: 279, img: "/images/offers/2.png" },
+  { id: "500g", label: "500gm", price: 499, img: "/images/offers/2.png" },
+  { id: "1kg", label: "1kg", price: 899, img: "/images/offers/2.png" },
 ];
 
 const PACK_OPTIONS = [
@@ -32,10 +36,10 @@ const PACK_OPTIONS = [
 ];
 
 const THUMB_IMAGES = [
-  "/images/offers/image.png",
-  "/images/offers/image.png",
-  "/images/offers/image.png",
-  "/images/offers/image.png",
+  "/images/offers/1.png",
+  "/images/offers/2.png",
+  "/images/offers/3.png",
+  
 ];
 
 export default function ProductOrderSection() {
@@ -110,7 +114,9 @@ export default function ProductOrderSection() {
       total: totalPrice,
     };
     console.log("Add to cart:", payload);
-    alert(`Added ${qty} × ${selectedWeight.label} to cart (₹${totalPrice}).`);
+    toast.success(
+      `Added ${qty} × ${selectedWeight.label} to cart (₹${totalPrice}).`
+    );
   }
 
   function handleBuyNow() {
@@ -120,7 +126,7 @@ export default function ProductOrderSection() {
   async function startRazorpayCheckout(customerData) {
     const scriptLoaded = await loadRazorpayScript();
     if (!scriptLoaded) {
-      alert("Razorpay SDK failed to load. Please check your connection.");
+      toast.error("Razorpay SDK failed to load. Please check your connection.");
       return;
     }
 
@@ -239,14 +245,17 @@ export default function ProductOrderSection() {
             });
 
             if (!verifyRes.ok || !verifyData?.success) {
-              alert("Payment verification failed. Please contact support.");
+              toast.error(
+                verifyData?.message ||
+                "Payment verification failed. Please contact support."
+              );
               return;
             }
 
-            alert("Payment successful! Thank you for your order.");
+            toast.success("Payment successful! Thank you for your order.");
           } catch (err) {
             console.error("[Razorpay verify] error:", err);
-            alert("Something went wrong while verifying payment.");
+            toast.error("Something went wrong while verifying payment.");
           }
         },
         modal: {
@@ -260,7 +269,7 @@ export default function ProductOrderSection() {
 
       rzp.on("payment.failed", function (response) {
         console.error("[Razorpay] payment.failed:", response.error);
-        alert(
+        toast.error(
           response.error?.description ||
           "Payment failed or was cancelled. Please try again."
         );
@@ -269,7 +278,7 @@ export default function ProductOrderSection() {
       rzp.open();
     } catch (err) {
       console.error("[startRazorpayCheckout] error:", err);
-      alert(err?.message || "Unable to start payment. Please try again.");
+      toast.error(err?.message || "Unable to start payment. Please try again.");
     }
   }
 
@@ -281,8 +290,10 @@ export default function ProductOrderSection() {
       setCustomerId(payload.customerId);
     }
 
-    startRazorpayCheckout(payload);
+    // No Razorpay here anymore.
+    // COD and ONLINE flows (including payment + order creation) are fully handled inside the popup.
   }
+
 
   const mainImage = THUMB_IMAGES[activeThumb] || selectedWeight.img;
 
@@ -378,26 +389,6 @@ export default function ProductOrderSection() {
               </div>
 
               <div className="space-y-2">
-                <div className="text-sm font-medium text-gray-900">Packing</div>
-                <div className="flex flex-wrap gap-3">
-                  {PACK_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => setPack(opt.id)}
-                      className={`px-4 py-2 rounded-full border text-sm font-medium transition
-                        ${pack === opt.id
-                          ? "bg-black text-white border-black"
-                          : "bg-white text-gray-800 border-gray-300 hover:border-black"
-                        }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-2">
                 <div className="text-sm font-medium text-gray-900">Quantity</div>
                 <div className="inline-flex items-center border border-gray-300 rounded-full overflow-hidden">
                   <button
@@ -446,42 +437,10 @@ export default function ProductOrderSection() {
           </div>
         </div>
 
-        <div className="leading-relaxed text-gray-700 px-50 text-xl">
-          <h1 className={`${playfair.className} text-[#FF3E3E] text-[28px]`}>Description</h1>
-          Our chicken pickle is crafted using{" "}
-          <strong>pure cold-pressed groundnut oil</strong>, a heart-friendly
-          oil rich in natural nutrients and antioxidants. Made with{" "}
-          <strong>clean, tender boneless chicken</strong> and a bold blend of{" "}
-          <strong>authentic Telangana spices</strong>, it delivers rich flavour
-          while staying gentle on your stomach. No preservatives, no artificial
-          colours, and no shortcuts — just a wholesome, homestyle pickle that’s
-          healthy, tasty and perfect with rice, rotis or any meal.
-        </div>
-       
-      <ul className="mt-4 space-y-2 text-gray-600 px-50 text-xl">
-      
-        <li>
-          • Made with <strong>pure cold-pressed groundnut oil</strong> — rich
-          in healthy fats & antioxidants.
-        </li>
-        <li>
-          • Contains{" "}
-          <strong>zero preservatives, zero artificial colours, zero MSG</strong>.
-        </li>
-        <li>
-          • Uses <strong>clean, tender boneless chicken</strong> for easy
-          digestion.
-        </li>
-        <li>
-          • Cooked with <strong>authentic Telangana spices</strong> for real
-          homemade flavour.
-        </li>
-        <li>
-          • Small-batch preparation ensures{" "}
-          <strong>consistent taste & hygiene</strong> every time.
-        </li>
-      </ul>
-    </section >
+        <ProductDescription playfairClass={playfair.className} />
+        <FAQs className="mt-8" />
+        <Footer />
+      </section >
 
       <OrderSummaryPopup
         open={isOrderModalOpen}

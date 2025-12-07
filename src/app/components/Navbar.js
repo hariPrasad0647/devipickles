@@ -23,29 +23,36 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    try {
-      const token =
-        typeof window !== "undefined"
+    // Recheck login when auth modal closes
+    if (!authModalOpen) {
+      try {
+        const token = typeof window !== "undefined"
           ? localStorage.getItem("authToken")
           : null;
-      setIsLoggedIn(!!token);
-    } catch (err) {
-      console.error("[Navbar] localStorage read error:", err);
+
+        setIsLoggedIn(!!token);
+      } catch (err) {
+        console.error("[Navbar] localStorage read error:", err);
+      }
     }
-  }, []);
+  }, [authModalOpen]);
+
 
   const handleUserClick = () => {
     if (isLoggedIn) {
-      router.push("/account");
+      router.push("/account");  // go to account
     } else {
-      setAuthModalOpen(true);
+      setAuthModalOpen(true);   // open login modal
     }
   };
 
+
   const handleAuthSuccess = () => {
-    setIsLoggedIn(true);
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);   // update login state immediately
     setAuthModalOpen(false);
   };
+
 
   return (
     <>
@@ -60,34 +67,36 @@ export default function Navbar() {
 
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative flex items-center justify-between">
           {/* LOGO */}
-          <div className="flex items-center scale-[0.78] sm:scale-[0.50] md:scale-[0.80] lg:scale-[1.0]">
-            <Image
-              src="/images/navbar/Logo.png"
-              alt="Logo"
-              width={90}
-              height={90}
-            />
-          </div>
+          <Link href={"/"}>
+            <div className="flex items-center scale-[0.78] sm:scale-[0.50] md:scale-[0.80] lg:scale-[1.0] 2xl:scale-[0.80]">
+              <Image
+                src="/images/navbar/Logo.png"
+                alt="Logo"
+                width={90}
+                height={90}
+              />
+            </div>
+          </Link>
 
           {/* DESKTOP CENTERED MENU */}
           <div className="hidden md:block sm:ml-10 absolute left-1/2 -translate-x-1/2">
             <ul className="flex items-center gap-12 sm:gap-8  md:text-[22px] sm:text-[15px] xl:gap-16 xl:text-[26px] 2xl:text-[22px] text-black font-medium">
-              <Link href={"#Offers"}>
+              <Link href={"/#Offers"}>
                 <li className="cursor-pointer hover:text-red-400 transition whitespace-nowrap">
                   Today Special Offers
                 </li>
               </Link>
-              <Link href={"#AboutUs"}>
+              <Link href={"/#Whychooseus"}>
                 <li className="cursor-pointer hover:text-red-400 transition whitespace-nowrap">
                   Why Devi Pickles
                 </li>
               </Link>
-              <Link href={"#Ingredients"}>
+              <Link href={"/#Ingredients"}>
                 <li className="cursor-pointer hover:text-red-400 transition whitespace-nowrap">
                   Our Ingredients
                 </li>
               </Link>
-              <Link href={"#/HealthBenifits"}>
+              <Link href={"/#Offers"}>
                 <li className="cursor-pointer hover:text-red-400 transition whitespace-nowrap">
                   Our Popular Food
                 </li>
@@ -126,18 +135,26 @@ export default function Navbar() {
             `}
           >
             <ul className="flex flex-col gap-2 py-4 px-4 text-[#1A1A1A] font-medium text-sm">
-              <li className="cursor-pointer hover:text-red-500 transition">
-                Today Special Offers
-              </li>
-              <li className="cursor-pointer hover:text-red-500 transition">
-                Why FoodHut
-              </li>
-              <li className="cursor-pointer hover:text-red-500 transition">
-                Our Menu
-              </li>
-              <li className="cursor-pointer hover:text-red-500 transition">
-                Our Popular Food
-              </li>
+              <Link href={"/#Offers"}>
+                <li className="cursor-pointer hover:text-red-500 transition">
+                  Today Special Offers
+                </li>
+              </Link>
+              <Link href={"/#Whychooseus"}>
+                <li className="cursor-pointer hover:text-red-500 transition">
+                  Why Devi Pickles
+                </li>
+              </Link>
+              <Link href={"/#Ingredients"}>
+                <li className="cursor-pointer hover:text-red-500 transition">
+                  Our Ingredients
+                </li>
+              </Link>
+              <Link href={"/#Offers"}>
+                <li className="cursor-pointer hover:text-red-500 transition">
+                  Our Popular Food
+                </li>
+              </Link>
               <li
                 className="cursor-pointer hover:text-red-500 transition flex items-center pt-1 border-t border-neutral-200 mt-2"
                 onClick={handleUserClick}

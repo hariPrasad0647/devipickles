@@ -45,6 +45,7 @@ const OFFERS = [
 export default function TodaySpecialOffers() {
     return (
         <section
+        id="Offers"
             className="relative w-full py-14 md:py-20 overflow-hidden"
             style={{
                 background:

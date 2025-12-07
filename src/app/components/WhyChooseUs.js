@@ -25,6 +25,7 @@ export default function WhyChooseUs() {
         background:
           "radial-gradient(circle at top left, #FFF5E4 0%, #FFFFFF 45%, #FFFFFF 100%)",
       }}
+      id="Whychooseus"
     >
       <div className="max-w-7xl mx-auto px-6 py-16 lg:py-24">
         

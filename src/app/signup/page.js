@@ -137,9 +137,6 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
         }
       }
 
-      // After successful signup:
-      // - if onSuccess exists (modal flow) -> mark authenticated + close modal
-      // - else (standalone /signup page) -> redirect
       if (typeof onSuccess === "function") {
         onSuccess();
       } else {
@@ -154,27 +151,27 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold text-center text-gray-900">
+    <div className="font-['DM_Sans']">
+      <h1 className="font-['Playfair_Display'] text-xl sm:text-2xl font-semibold text-center text-[#2a160f]">
         {step === 1 ? "Create your account" : "Verify OTP"}
       </h1>
-      <p className="mt-1 text-center text-sm text-gray-500">
+      <p className="mt-2 text-center text-xs sm:text-sm text-gray-500">
         Use your email to sign up quickly.
       </p>
 
       <form
         onSubmit={step === 1 ? handleSendOtp : handleVerifyOtp}
-        className="mt-6 space-y-4"
+        className="mt-5 space-y-4"
       >
         {step === 1 && (
           <>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-xs sm:text-sm font-medium text-gray-700">
                 Name
               </label>
               <input
                 type="text"
-                className="w-full rounded-lg border text-black px-3 py-2 text-sm outline-none"
+                className="w-full rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-[#2a160f] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#f3b089] focus:border-[#f3b089] transition-all"
                 placeholder="Your full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -183,12 +180,12 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
             </div>
 
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-xs sm:text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
                 type="email"
-                className="w-full rounded-lg border text-black px-3 py-2 text-sm outline-none"
+                className="w-full rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-[#2a160f] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#f3b089] focus:border-[#f3b089] transition-all"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -201,13 +198,13 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
         {step === 2 && (
           <>
             <div className="space-y-1">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-xs sm:text-sm font-medium text-gray-700">
                 Enter OTP
               </label>
               <input
                 type="text"
-                className="w-full rounded-lg border text-black px-3 py-2 text-sm text-center tracking-[0.3em]"
-                placeholder="------"
+                className="w-full rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-[#2a160f] px-3 py-2 text-sm text-center tracking-[0.35em] outline-none focus:ring-2 focus:ring-[#f3b089] focus:border-[#f3b089] transition-all"
+                placeholder="••••••"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 required
@@ -217,13 +214,13 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
             <button
               type="button"
               onClick={handleSendOtp}
-              className="text-xs text-purple-600 hover:underline"
+              className="text-[11px] sm:text-xs text-[#f34332] hover:text-[#c83225] hover:underline underline-offset-2 transition-colors"
             >
               Resend OTP
             </button>
 
             {serverOtp && (
-              <p className="text-xs text-gray-500">
+              <p className="text-[11px] sm:text-xs text-gray-500">
                 <strong>Dev OTP:</strong> {serverOtp}
               </p>
             )}
@@ -231,13 +228,13 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
         )}
 
         {error && (
-          <div className="rounded-md bg-red-50 px-3 py-2 text-xs text-red-600">
+          <div className="rounded-md bg-red-50 px-3 py-2 text-[11px] sm:text-xs text-red-600">
             {error}
           </div>
         )}
 
         {message && (
-          <div className="rounded-md bg-green-50 px-3 py-2 text-xs text-green-700">
+          <div className="rounded-md bg-green-50 px-3 py-2 text-[11px] sm:text-xs text-green-700">
             {message}
           </div>
         )}
@@ -245,7 +242,7 @@ function SignupFormInner({ onSuccess, redirectTo: redirectProp }) {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 w-full rounded-full bg-purple-700 py-2.5 text-sm font-semibold text-white"
+          className="mt-2 w-full rounded-full bg-[#542316] py-2.5 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-[#3b170f] hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition-all"
         >
           {loading
             ? step === 1
