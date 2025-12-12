@@ -25,7 +25,7 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
   function getOtpString() {
     return otpBoxes.join("").trim();
   }
-
+//addded comment
   async function handleSendOtp(e) {
     e?.preventDefault?.();
     setError("");
