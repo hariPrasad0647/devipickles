@@ -3,6 +3,9 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
+// add near other imports
+import { useRouter } from "next/navigation";
+
 import { loadRazorpayScript } from "../utils/razorpay";
 
 const API_BASE =
@@ -43,6 +46,9 @@ export default function OrderSummaryPopup({
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [customerId, setCustomerId] = useState(null);
+
+  const router = useRouter();
+
 
   // payment method: "ONLINE" | "COD"
   const [paymentMethod, setPaymentMethod] = useState("ONLINE");
@@ -475,8 +481,11 @@ export default function OrderSummaryPopup({
                 address: orderAddress,
                 paymentDetails: {
                   email: payload.email,
+                  name: payload.name || payload.customerName || orderAddress.name || "",
+                  phone: payload.phone || orderAddress.phone || ""
                 },
               }),
+
             });
 
             const verifyData = await verifyRes.json().catch(() => null);
@@ -489,7 +498,7 @@ export default function OrderSummaryPopup({
             if (!verifyRes.ok || !verifyData?.success) {
               toast.error(
                 verifyData?.message ||
-                  "Payment verified but order creation failed."
+                "Payment verified but order creation failed."
               );
               return reject(new Error("Verify/payment error"));
             }
@@ -741,7 +750,7 @@ export default function OrderSummaryPopup({
           address: orderAddress,
         });
       }
-
+      window.location.href = "/account";
       onClose();
     } catch (err) {
       console.error("[OrderSummaryPopup] Submit failed:", err);
@@ -962,11 +971,10 @@ export default function OrderSummaryPopup({
                           return (
                             <label
                               key={addrId}
-                              className={`flex items-start gap-2 rounded-xl border px-3 py-2 cursor-pointer ${
-                                isSelected
-                                  ? "border-black bg-gray-50"
-                                  : "border-gray-200 hover:border-gray-400"
-                              }`}
+                              className={`flex items-start gap-2 rounded-xl border px-3 py-2 cursor-pointer ${isSelected
+                                ? "border-black bg-gray-50"
+                                : "border-gray-200 hover:border-gray-400"
+                                }`}
                             >
                               <input
                                 type="radio"
