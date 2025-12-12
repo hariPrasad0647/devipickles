@@ -22,7 +22,7 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const API_BASE = "http://localhost:3000";
+const API_BASE =  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
 
 const WEIGHT_OPTIONS = [
   { id: "250g", label: "250gm", price: 279, img: "/images/offers/2.png" },
