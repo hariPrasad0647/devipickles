@@ -218,9 +218,13 @@ export default function TermsPage() {
 
             {/* 13. Contact Us */}
             <div>
-              <h2 className="font-['Playfair_Display'] text-lg sm:text-xl font-semibold text-[#2a160f] mb-2">
-                13. Contact Us
-              </h2>
+              <p className="mt-1">
+                Address:{" "}
+                <span className="font-medium">
+                  Devi Pickles, Warangal, Telangana, India
+                </span>
+              </p>
+
               <p>
                 If you have any questions about these Terms &amp; Conditions,
                 you can contact us at:
@@ -269,7 +273,8 @@ export default function TermsPage() {
                 accordance with the laws of India. Any disputes arising out of
                 or in connection with your use of the website or purchase of our
                 products shall be subject to the exclusive jurisdiction of the
-                courts located in [Your City], India.
+                courts located in Warangal, Telangana, India
+
               </p>
             </div>
           </section>

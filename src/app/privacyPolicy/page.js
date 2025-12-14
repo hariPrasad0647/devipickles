@@ -188,6 +188,13 @@ export default function PrivacyPage() {
                 handle your data, please contact us at:
               </p>
               <p className="mt-1">
+                Address:{" "}
+                <span className="font-medium">
+                  Devi Pickles, Warangal, Telangana, India
+                </span>
+              </p>
+
+              <p className="mt-1">
                 Email:{" "}
                 <a
                   href="mailto:devispicypickles@gmail.com"
@@ -200,7 +207,7 @@ export default function PrivacyPage() {
               <p className="mt-1">
                 Phone:{" "}
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+918500156333"
                   className="text-[#f34332] hover:text-[#c83225] underline-offset-2 hover:underline transition-colors"
                 >
                   +91 8500156333

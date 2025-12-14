@@ -236,8 +236,7 @@ export default function ReturnsPage() {
                 This Returns &amp; Refunds Policy is governed by and construed
                 in accordance with the laws of India. Any disputes arising out
                 of or in connection with this policy shall be subject to the
-                exclusive jurisdiction of the courts located in [Your City],
-                India.
+                exclusive jurisdiction of the courts located in Hyderabad, Telangana, India.
               </p>
             </div>
           </section>

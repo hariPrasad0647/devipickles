@@ -104,7 +104,7 @@ export default function Footer() {
               <p className="mt-1">
                 Phone:{" "}
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+918500156333"
                   className="text-[#f34332] hover:text-[#c83225] underline-offset-2 hover:underline transition-colors"
                 >
                   +91 8500156333
