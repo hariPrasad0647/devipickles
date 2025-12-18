@@ -690,56 +690,6 @@ export default function OrderSummaryPopup({
         }
       }
 
-      // ✅ If there were NO saved addresses before, save this address in DB
-      if (finalOrder && savedAddresses.length === 0) {
-        try {
-          const token = localStorage.getItem("authToken") || "";
-          const res = await fetch(`${API_BASE}/api/v1/account/address`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token ? `Bearer ${token}` : "",
-            },
-            body: JSON.stringify({
-              customerId: payload.customerId,
-              address: {
-                name: orderAddress.name,
-                phone: orderAddress.phone,
-                line1: orderAddress.line1,
-                line2: orderAddress.line2 || "",
-                city: orderAddress.city,
-                pincode: orderAddress.pincode,
-              },
-            }),
-          });
-
-          const saveData = await res.json().catch(() => null);
-          console.log(
-            "[OrderSummaryPopup] first-time address save /api/v1/account/address response:",
-            {
-              status: res.status,
-              ok: res.ok,
-              saveData,
-            }
-          );
-
-          // Optional: update local state if backend returns addresses
-          if (res.ok && saveData?.success && Array.isArray(saveData.addresses)) {
-            setSavedAddresses(saveData.addresses);
-          } else {
-            // at least refetch to stay in sync
-            if (token) {
-              refreshAccountData(token);
-            }
-          }
-        } catch (err) {
-          console.error(
-            "[OrderSummaryPopup] Failed to save first-time address after order:",
-            err
-          );
-          // no toast; order is already successful
-        }
-      }
 
       if (typeof onLoginSuccess === "function") {
         onLoginSuccess({
