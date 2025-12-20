@@ -43,7 +43,8 @@ export default function OrderSummaryPopup({
   const [authMode, setAuthMode] = useState(null); // "login" | "signup"
 
   const [name, setName] = useState("");
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+
   const [loading, setLoading] = useState(false);
   const [customerId, setCustomerId] = useState(null);
 
@@ -223,115 +224,88 @@ export default function OrderSummaryPopup({
     }
   }
 
-  async function handleVerifyOtp() {
-    if (!email.trim() || !otp.trim()) {
-      toast.error("Please enter the OTP.");
-      return;
-    }
+ async function handleVerifyOtp() {
+  const combinedOtp = otp.join("");
 
-    try {
-      setLoading(true);
+  if (!email.trim() || combinedOtp.length !== 6) {
+    toast.error("Please enter the complete 6-digit OTP.");
+    return;
+  }
 
-      if (authMode === "login") {
-        const res = await fetch(`${API_BASE}/api/auth/otp-login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: email.trim(),
-            otp: otp.trim(),
-          }),
-        });
+  try {
+    setLoading(true);
 
-        const data = await res.json().catch(() => null);
-        console.log("[OrderSummaryPopup] otp-login response:", {
-          status: res.status,
-          ok: res.ok,
-          data,
-        });
+    // LOGIN FLOW
+    if (authMode === "login") {
+      const res = await fetch(`${API_BASE}/api/v1/auth/otp-login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          otp: combinedOtp,
+        }),
+      });
 
-        if (!res.ok || !data?.success || !data?.token || !data?.user) {
-          toast.error(
-            data?.message || "OTP verification failed. Please try again."
-          );
-          return;
-        }
+      const data = await res.json().catch(() => null);
 
-        try {
-          localStorage.setItem("authToken", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-        } catch (err) {
-          console.error("[OrderSummaryPopup] Failed to store auth:", err);
-        }
-
-        const idFromUser =
-          data.user?._id || data.user?.id || data.user?.customerId || null;
-        setCustomerId(idFromUser);
-
-        if (data.user?.name) setName(data.user.name);
-        if (data.user?.phone) setContactPhone((prev) => prev || data.user.phone);
-
-        setIsAuthenticated(true);
-        setStep("address");
-        setOtp("");
-        toast.success("Login successful. Please enter your delivery address.");
-
-        // fetch saved addresses for this user
-        await refreshAccountData(data.token);
+      if (!res.ok || !data?.success || !data?.token || !data?.user) {
+        toast.error(data?.message || "OTP verification failed.");
         return;
       }
 
-      if (authMode === "signup") {
-        if (!name.trim()) {
-          toast.error("Please enter your name.");
-          return;
-        }
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-        const res = await fetch(`${API_BASE}/api/v1/auth/signup`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: name.trim(),
-            email: email.trim(),
-            otp: otp.trim(),
-          }),
-        });
+      setCustomerId(data.user?._id || data.user?.id || null);
+      setIsAuthenticated(true);
+      setStep("address");
+      setOtp(["", "", "", "", "", ""]);
 
-        const data = await res.json().catch(() => null);
-        console.log("[OrderSummaryPopup] signup response:", {
-          status: res.status,
-          ok: res.ok,
-          data,
-        });
-
-        if (!res.ok || !data?.success || !data?.token || !data?.user) {
-          toast.error(data?.message || "Signup failed. Please try again.");
-          return;
-        }
-
-        try {
-          localStorage.setItem("authToken", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-        } catch (err) {
-          console.error("[OrderSummaryPopup] Failed to store auth:", err);
-        }
-
-        setCustomerId(data.user?.id || data.user?._id || null);
-
-        setIsAuthenticated(true);
-        setStep("address");
-        setOtp("");
-        toast.success("Account created. Please enter your delivery address.");
-
-        // new user → no addresses yet, but call for consistency
-        await refreshAccountData(data.token);
-      }
-    } catch (err) {
-      console.error("[OrderSummaryPopup] verify OTP error:", err);
-      toast.error("Something went wrong while verifying OTP.");
-    } finally {
-      setLoading(false);
+      await refreshAccountData(data.token);
+      return;
     }
+
+    // SIGNUP FLOW
+    if (authMode === "signup") {
+      if (!name.trim()) {
+        toast.error("Please enter your name.");
+        return;
+      }
+
+      const res = await fetch(`${API_BASE}/api/v1/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          otp: combinedOtp,
+        }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok || !data?.success || !data?.token || !data?.user) {
+        toast.error(data?.message || "Signup failed.");
+        return;
+      }
+
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      setCustomerId(data.user?._id || data.user?.id || null);
+      setIsAuthenticated(true);
+      setStep("address");
+      setOtp(["", "", "", "", "", ""]);
+
+      await refreshAccountData(data.token);
+    }
+  } catch (err) {
+    console.error("[OrderSummaryPopup] verify OTP error:", err);
+    toast.error("Something went wrong while verifying OTP.");
+  } finally {
+    setLoading(false);
   }
+}
 
   // --- HELPERS (COD + Razorpay) ---
 
@@ -878,21 +852,43 @@ export default function OrderSummaryPopup({
                       </div>
                     )}
 
-                    <div className="space-y-2">
-                      <div className="text-xs font-medium text-gray-800">
-                        Enter OTP
-                      </div>
-                      <input
-                        type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        placeholder="6-digit OTP"
-                        className="w-full px-3 py-2 rounded-xl border text-sm text-black outline-none focus:ring-1 focus:ring-black placeholder:text-gray-400"
-                      />
-                      <div className="text-[10px] text-gray-500">
-                        We have sent an OTP to your email address.
-                      </div>
+                    <div className="flex justify-between gap-2">
+                      {otp.map((digit, index) => (
+                        <input
+                          key={index}
+                          id={`otp-${index}`}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={1}
+                          value={digit}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, "");
+                            if (!val) return;
+
+                            const newOtp = [...otp];
+                            newOtp[index] = val;
+                            setOtp(newOtp);
+
+                            const next = document.getElementById(`otp-${index + 1}`);
+                            if (next) next.focus();
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Backspace") {
+                              const newOtp = [...otp];
+                              if (newOtp[index]) {
+                                newOtp[index] = "";
+                                setOtp(newOtp);
+                              } else {
+                                const prev = document.getElementById(`otp-${index - 1}`);
+                                if (prev) prev.focus();
+                              }
+                            }
+                          }}
+                          className="w-10 h-10 text-center text-lg border rounded-lg outline-none focus:ring-1 focus:ring-black"
+                        />
+                      ))}
                     </div>
+
                   </>
                 )}
               </>
@@ -1078,7 +1074,7 @@ export default function OrderSummaryPopup({
             >
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || (step === "otp" && otp.some(d => !d))}
                 className="w-full rounded-full bg-[#542316] text-white py-3 text-sm font-semibold hover:bg-[#3a170f] transition disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? "Please wait..." : primaryButtonLabel}

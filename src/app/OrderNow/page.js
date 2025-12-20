@@ -9,6 +9,7 @@ import ProductDescription from "./Description";
 import Footer from "./Footer";
 import FAQs from "./FAQ";
 import { toast } from "react-hot-toast";
+import AuthModal from "../components/AuthModal";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -22,7 +23,7 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-const API_BASE =  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
 
 const WEIGHT_OPTIONS = [
   { id: "250g", label: "250gm", price: 1, img: "/images/offers/2.png" },
@@ -39,7 +40,7 @@ const THUMB_IMAGES = [
   "/images/offers/1.png",
   "/images/offers/2.png",
   "/images/offers/3.png",
-  
+
 ];
 
 export default function ProductOrderSection() {
@@ -51,6 +52,8 @@ export default function ProductOrderSection() {
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [customerId, setCustomerId] = useState(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
 
   useEffect(() => {
     try {
@@ -120,8 +123,14 @@ export default function ProductOrderSection() {
   }
 
   function handleBuyNow() {
+    if (!isLoggedIn) {
+      setIsAuthModalOpen(true);
+      return;
+    }
+
     setIsOrderModalOpen(true);
   }
+
 
   async function startRazorpayCheckout(customerData) {
     const scriptLoaded = await loadRazorpayScript();
@@ -441,6 +450,17 @@ export default function ProductOrderSection() {
         <FAQs className="mt-8" />
         <Footer />
       </section >
+
+      <AuthModal
+        open={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onAuthSuccess={() => {
+          setIsAuthModalOpen(false);
+          setIsLoggedIn(true);
+          setIsOrderModalOpen(true);
+        }}
+      />
+
 
       <OrderSummaryPopup
         open={isOrderModalOpen}

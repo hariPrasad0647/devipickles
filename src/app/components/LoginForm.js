@@ -231,6 +231,7 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
                 {otpBoxes.map((val, idx) => (
                   <input
                     key={idx}
+
                     aria-label={`OTP digit ${idx + 1}`}
                     ref={(el) => (inputsRef.current[idx].current = el)}
                     value={val}
@@ -238,7 +239,7 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
                     onKeyDown={(e) => handleOtpKeyDown(e, idx)}
                     inputMode="numeric"
                     maxLength={1}
-                    className="w-12 h-12 sm:w-14 sm:h-14 text-center rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-lg font-medium outline-none transition-all duration-150 focus:border-[#f34332] focus:ring-2 focus:ring-[#f3b089]/40"
+                    className="w-12 h-12 sm:w-14 text-black sm:h-14 text-center rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-lg font-medium outline-none transition-all duration-150 focus:border-[#f34332] focus:ring-2 focus:ring-[#f3b089]/40"
                   />
                 ))}
               </div>

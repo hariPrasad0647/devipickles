@@ -291,7 +291,7 @@ export default function SignupForm({ onSuccess, redirectTo: redirectProp }) {
                     onKeyDown={(e) => handleOtpKeyDown(e, idx)}
                     inputMode="numeric"
                     maxLength={1}
-                    className="w-12 h-12 sm:w-14 sm:h-14 text-center rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-lg font-medium outline-none
+                    className="w-12 text-black h-12 sm:w-14 sm:h-14 text-center rounded-xl border border-[#efd0b4] bg-[#fffaf5] text-lg font-medium outline-none
                       transition-all duration-150 focus:border-[#f34332] focus:ring-2 focus:ring-[#f3b089]/40"
                   />
                 ))}
