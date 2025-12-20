@@ -205,13 +205,7 @@ export default function LoginForm({ onSuccess, redirectTo: redirectProp }) {
       </h2>
       <p className="mt-2 text-center text-xs text-gray-500">Use your email to login quickly.</p>
 
-      <div className="mt-3 mb-2 text-center">
-        <Link href="/signup">
-          <span className="text-[12px] text-[#f34332] hover:text-[#c83225] underline-offset-2 hover:underline transition-colors">
-            Don't have an account? Sign up
-          </span>
-        </Link>
-      </div>
+     
 
       <form onSubmit={step === 1 ? handleSendOtp : handleVerifyOtp} className="mt-4 space-y-4">
         {step === 1 && (
