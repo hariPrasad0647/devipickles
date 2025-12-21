@@ -1046,7 +1046,7 @@ export default function OrderSummaryPopup({
                       <span>Online / Prepaid</span>
                     </label>
 
-                    <label className="inline-flex items-center gap-2 text-sm">
+                    {/* <label className="inline-flex items-center gap-2 text-sm">
                       <input
                         type="radio"
                         name="paymentMethod"
@@ -1056,7 +1056,7 @@ export default function OrderSummaryPopup({
                         className="w-4 h-4"
                       />
                       <span>Cash on Delivery (Pay on delivery)</span>
-                    </label>
+                    </label> */}
                   </div>
                   <div className="text-[11px] text-gray-500 mt-2">
                     {paymentMethod === "COD"
