@@ -4,6 +4,7 @@
 import React from "react";
 import Image from "next/image";
 import { Playfair_Display, DM_Sans } from "next/font/google";
+import Link from "next/link";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -58,7 +59,7 @@ export default function AboutSection() {
 
             {/* features */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base text-[#1A1A1A]">
-              
+
               <div className="flex items-start gap-3">
                 <span className="mt-1 text-[#FFB347] text-lg">👩‍🍳</span>
                 <div>
@@ -104,12 +105,14 @@ export default function AboutSection() {
 
             {/* CTA */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href="#products"
-                className="inline-flex items-center px-6 py-3 rounded-full bg-[#E87922] hover:bg-[#e06f18] text-sm sm:text-base font-semibold shadow-md transition-colors"
-              >
-                Explore Our Pickles
-              </a>
+              <Link href={"/OrderNow"}>
+                <button
+                  
+                  className="inline-flex items-center px-6 py-3 rounded-full bg-[#E87922] hover:bg-[#e06f18] text-sm sm:text-base font-semibold shadow-md transition-colors"
+                >
+                  Explore Our Pickles
+                </button>
+              </Link>
               <span className="text-xs sm:text-sm text-gray-500">
                 Once you taste it, you’ll know why our customers call it{" "}
                 <span className="text-[#FFB347] font-medium">“bottle of home.”</span>

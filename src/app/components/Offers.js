@@ -8,7 +8,7 @@ const OFFERS = [
         id: 1,
         title: "Starter Pack",
         quantity: "250g Chicken Pickle",
-        price: "₹199",
+        price: "₹420",
         rating: "4.7",
         image: "/images/offers/image.png",
         description: "Perfect for first-timers who want to taste our signature flavour.",
@@ -17,7 +17,7 @@ const OFFERS = [
         id: 2,
         title: "Family Jar",
         quantity: "500g Chicken Pickle",
-        price: "₹349",
+        price: "₹599",
         rating: "4.8",
         image: "/images/offers/image.png",
         description: "Ideal for small families who love a spicy side with every meal.",
@@ -26,26 +26,18 @@ const OFFERS = [
         id: 3,
         title: "Value Pack",
         quantity: "1kg Chicken Pickle",
-        price: "₹649",
+        price: "₹1199",
         rating: "4.9",
         image: "/images/offers/image.png",
         description: "Best value for regular pickle lovers and weekly meal prep.",
     },
-    {
-        id: 4,
-        title: "Gifting Combo",
-        quantity: "2 x 500g Jars",
-        price: "₹699",
-        rating: "5.0",
-        image: "/images/offers/image.png",
-        description: "Share the taste with friends & family – perfect for gifting.",
-    },
+
 ];
 
 export default function TodaySpecialOffers() {
     return (
         <section
-        id="Offers"
+            id="Offers"
             className="relative w-full py-14 md:py-20 overflow-hidden"
             style={{
                 background:
@@ -84,7 +76,8 @@ export default function TodaySpecialOffers() {
                 </div>
 
                 {/* DESKTOP / TABLET GRID */}
-                <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 xl:gap-8 justify-center place-items-center">
+                <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-8 justify-center place-items-center">
+
                     {OFFERS.map((offer) => (
                         <SpecialOfferCard key={offer.id} offer={offer} />
                     ))}
@@ -107,9 +100,18 @@ export default function TodaySpecialOffers() {
 
 function SpecialOfferCard({ offer }) {
     return (
-        <div className="relative flex flex-col items-center md:max-w-[260px]">
+        <div className="relative flex flex-col items-center md:max-w-[260px] group">
+
             {/* IMAGE BADGE */}
-            <div className="absolute -top-[28px] z-20 flex flex-col items-center">
+            <div
+                className="
+    absolute -top-[28px] z-20 flex flex-col items-center
+    transition-transform duration-300 ease-out
+    transform-gpu
+    group-hover:scale-110
+  "
+            >
+
                 <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full  flex items-center justify-center shadow-[0_18px_40px_rgba(0,0,0,0.25)]">
                     <Image
                         src={offer.image}
@@ -122,7 +124,18 @@ function SpecialOfferCard({ offer }) {
             </div>
 
             {/* CARD BODY */}
-            <div className="relative z-0 w-full bg-white rounded-[28px] pt-20 pb-7 px-5 mt-10 shadow-[0_18px_40px_rgba(0,0,0,0.08)] border border-[#F5E6CC]">
+            <div
+                className="
+    relative z-0 w-full bg-white rounded-[28px]
+    pt-20 pb-7 px-5 mt-10
+    border border-[#F5E6CC]
+
+    transition-all duration-300 ease-out
+    transform-gpu
+    group-hover:scale-[1.04]
+    group-hover:shadow-[0_28px_60px_rgba(0,0,0,0.18)]
+  "
+            >
                 {/* Rating */}
                 <div className="flex items-center justify-center mb-3">
                     <div className="flex items-center gap-1 text-sm text-neutral-700">
@@ -147,7 +160,17 @@ function SpecialOfferCard({ offer }) {
                 {/* BUTTON */}
                 <div className="flex justify-center">
                     <Link href={"/OrderNow"}>
-                        <button className="bg-[#FF3E3E] hover:bg-[#E23232] transition-all text-white px-6 py-2 rounded-full text-sm font-semibold shadow-[0_12px_25px_rgba(255,62,62,0.35)]">
+                        <button
+                            className="
+    bg-[#FF3E3E] text-white px-6 py-2 rounded-full text-sm font-semibold
+    shadow-[0_12px_25px_rgba(255,62,62,0.35)]
+
+    transition-all duration-300 ease-out
+    hover:scale-105
+    hover:shadow-[0_18px_35px_rgba(255,62,62,0.45)]
+    hover:bg-[#E23232]
+  "
+                        >
                             Order Now
                         </button>
                     </Link>

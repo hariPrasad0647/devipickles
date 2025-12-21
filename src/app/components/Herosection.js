@@ -27,7 +27,14 @@ export default function HeroSection() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
         {/* LEFT CONTENT */}
-        <div className="flex flex-col gap-6 md:gap-8">
+        <div
+          className="
+    flex flex-col gap-6 md:gap-8
+    opacity-0
+    animate-[fadeUp_0.9s_ease-out_forwards]
+  "
+        >
+
           {/* Top dashed arrow decor */}
           <div className="w-24 sm:w-28 md:w-32 lg:w-36 translate-x-10 scale-[0.70] sm:translate-x-16 lg:translate-x-24 -translate-y-10">
             <Image
@@ -77,14 +84,30 @@ export default function HeroSection() {
           </div>
 
           {/* Paragraph */}
-          <p className="max-w-lg text-sm sm:text-base lg:text-lg text-neutral-700 leading-relaxed">
+          <p
+            className="
+    max-w-lg text-sm sm:text-base lg:text-lg text-neutral-700 leading-relaxed
+    opacity-0
+    animate-[fadeUp_0.9s_ease-out_forwards]
+    [animation-delay:200ms]
+  "
+          >
+
             Our chicken pickles are made in small batches using cold-pressed
             groundnut oil, ensuring health, freshness, and deliciousness you
             can trust.
           </p>
 
           {/* DESKTOP/TABLET BUTTON */}
-          <div className="hidden md:flex items-center gap-4 pt-2">
+          <div
+            className="
+    hidden md:flex items-center gap-4 pt-2
+    opacity-0
+    animate-[fadeUp_0.9s_ease-out_forwards]
+    [animation-delay:400ms]
+  "
+          >
+
             <Link href="./OrderNow">
               <button className="bg-[#FF3E3E] hover:bg-[#E23232] transition-all duration-200 text-white px-8 py-3 rounded-full font-semibold text-base lg:text-lg shadow-[0_14px_30px_rgba(255,62,62,0.35)]">
                 Order Now
@@ -95,7 +118,18 @@ export default function HeroSection() {
 
         {/* RIGHT IMAGE */}
         <div className="relative flex justify-center md:justify-end">
-          <div className="relative w-full max-w-xs scale-[1.55] translate-y-5 2xl:translate-y-18 sm:max-w-sm md:max-w-md 2xl:scale-[1.55] lg:max-w-lg xl:max-w-xl aspect-[4/3]">
+          <div
+            className="
+    relative w-full max-w-xs
+    scale-[1.55] translate-y-5
+    sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl
+    aspect-[4/3]
+
+    opacity-0
+    animate-[fadeScale_1.1s_ease-out_forwards]
+    [animation-delay:300ms]
+  "
+          >
             <Image
               src="/images/herosection/newpic-Photoroom.png"
               alt="Delicious food"
@@ -118,7 +152,14 @@ export default function HeroSection() {
       </div>
 
       {/* MOBILE-ONLY BUTTON */}
-      <div className="flex md:hidden items-center translate-y-20 gap-4 px-6">
+      <div
+        className="
+    flex md:hidden items-center translate-y-20 gap-4 px-6
+    opacity-0
+    animate-[fadeUp_0.9s_ease-out_forwards]
+    [animation-delay:500ms]
+  "
+      >
         <Link href="./OrderNow">
           <button className="bg-[#FF3E3E] hover:bg-[#E23232] transition-all duration-200 text-white px-8 py-3 rounded-full font-semibold shadow-[0_12px_25px_rgba(255,62,62,0.35)]">
             Order Now
