@@ -419,13 +419,13 @@ export default function ProductOrderSection() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
+                {/* <button
                   type="button"
                   onClick={handleAddToCart}
                   className="w-full sm:w-auto sm:flex-1 px-6 py-3 rounded-full bg-black text-white text-sm font-semibold hover:bg-gray-900 transition"
                 >
                   Add to Cart
-                </button>
+                </button> */}
                 <button
                   type="button"
                   onClick={handleBuyNow}
