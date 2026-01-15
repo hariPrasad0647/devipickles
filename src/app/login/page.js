@@ -28,7 +28,7 @@ function LoginFormInner({ onSuccess, redirectTo: redirectProp }) {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  const API_BASE =  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
 
   const inputsRef = useRef(
     Array.from({ length: OTP_LENGTH }, () => React.createRef())
@@ -99,7 +99,8 @@ function LoginFormInner({ onSuccess, redirectTo: redirectProp }) {
       return;
     }
 
-    const endpoint = `${API_BASE}/api/v1/auth/verify-otp`;
+    const endpoint = `${API_BASE}/api/v1/auth/otp-login`;
+
 
     try {
       const res = await fetch(endpoint, {
@@ -339,8 +340,8 @@ function LoginFormInner({ onSuccess, redirectTo: redirectProp }) {
                 ? "Sending..."
                 : "Verifying..."
               : step === 1
-              ? "Send OTP"
-              : "Verify & Continue"}
+                ? "Send OTP"
+                : "Verify & Continue"}
           </button>
         </div>
       </form>

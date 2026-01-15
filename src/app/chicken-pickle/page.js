@@ -26,7 +26,7 @@ const dmSans = DM_Sans({
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
 
 const WEIGHT_OPTIONS = [
-  { id: "250g", label: "250gm", price: 420, img: "/images/offers/2.png" },
+  { id: "250g", label: "250gm", price: 425, img: "/images/offers/2.png" },
   { id: "500g", label: "500gm", price: 599, img: "/images/offers/2.png" },
   { id: "1kg", label: "1kg", price: 1199, img: "/images/offers/2.png" },
 ];

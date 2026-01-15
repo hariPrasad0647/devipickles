@@ -6,31 +6,23 @@ import Link from "next/link";
 const OFFERS = [
     {
         id: 1,
-        title: "Starter Pack",
-        quantity: "250g Chicken Pickle",
-        price: "₹420",
+        title: "Chicken Pickle",
+        quantity: "250g, 500g, 1Kg",
+        href: "/chicken-pickle",
         rating: "4.7",
         image: "/images/offers/image.png",
         description: "Perfect for first-timers who want to taste our signature flavour.",
     },
     {
         id: 2,
-        title: "Family Jar",
-        quantity: "500g Chicken Pickle",
-        price: "₹599",
+        title: "Mutton Pickle",
+        quantity: "250g, 500g, 1Kg",
+        href: "/mutton-pickle",
         rating: "4.8",
         image: "/images/offers/image.png",
         description: "Ideal for small families who love a spicy side with every meal.",
     },
-    {
-        id: 3,
-        title: "Value Pack",
-        quantity: "1kg Chicken Pickle",
-        price: "₹1199",
-        rating: "4.9",
-        image: "/images/offers/image.png",
-        description: "Best value for regular pickle lovers and weekly meal prep.",
-    },
+
 
 ];
 
@@ -76,12 +68,19 @@ export default function TodaySpecialOffers() {
                 </div>
 
                 {/* DESKTOP / TABLET GRID */}
-                <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-8 justify-center place-items-center">
-
+                <div
+                    className={`    hidden sm:grid
+    gap-34
+    place-items-center
+    justify-center
+    mx-auto
+    [grid-template-columns:repeat(auto-fit,260px)]`}
+                >
                     {OFFERS.map((offer) => (
                         <SpecialOfferCard key={offer.id} offer={offer} />
                     ))}
                 </div>
+
 
                 {/* MOBILE CAROUSEL */}
                 <div className="sm:hidden -mx-6 px-6">
@@ -100,8 +99,7 @@ export default function TodaySpecialOffers() {
 
 function SpecialOfferCard({ offer }) {
     return (
-        <div className="relative flex flex-col items-center md:max-w-[260px] group">
-
+        <div className="relative flex flex-col items-center w-[260px] group">
             {/* IMAGE BADGE */}
             <div
                 className="
@@ -159,7 +157,8 @@ function SpecialOfferCard({ offer }) {
 
                 {/* BUTTON */}
                 <div className="flex justify-center">
-                    <Link href={"/OrderNow"}>
+                    <Link href={offer.href}>
+
                         <button
                             className="
     bg-[#FF3E3E] text-white px-6 py-2 rounded-full text-sm font-semibold
