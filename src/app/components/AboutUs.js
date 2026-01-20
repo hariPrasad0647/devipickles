@@ -105,9 +105,9 @@ export default function AboutSection() {
 
             {/* CTA */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href={"/OrderNow"}>
+              <Link href="/#Offers">
                 <button
-                  
+
                   className="inline-flex items-center px-6 py-3 rounded-full bg-[#E87922] hover:bg-[#e06f18] text-sm sm:text-base font-semibold shadow-md transition-colors"
                 >
                   Explore Our Pickles

@@ -108,7 +108,7 @@ export default function HeroSection() {
   "
           >
 
-            <Link href="./OrderNow">
+            <Link href="/#Offers">
               <button className="bg-[#FF3E3E] hover:bg-[#E23232] transition-all duration-200 text-white px-8 py-3 rounded-full font-semibold text-base lg:text-lg shadow-[0_14px_30px_rgba(255,62,62,0.35)]">
                 Order Now
               </button>
@@ -160,7 +160,7 @@ export default function HeroSection() {
     [animation-delay:500ms]
   "
       >
-        <Link href="./OrderNow">
+        <Link href="/#Offers">
           <button className="bg-[#FF3E3E] hover:bg-[#E23232] transition-all duration-200 text-white px-8 py-3 rounded-full font-semibold shadow-[0_12px_25px_rgba(255,62,62,0.35)]">
             Order Now
           </button>
