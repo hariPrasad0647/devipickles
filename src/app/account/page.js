@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { clearAuth, logout } from "../utils/auth";
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
@@ -56,7 +57,14 @@ export default function AccountPage() {
         });
 
         if (!res.ok || !data?.success) {
-          setError(data?.message || "Failed to load your account.");
+          const msg = data?.message || "Failed to load your account.";
+          if (res.status === 401 || /invalid|expired/i.test(msg || "")) {
+            clearAuth();
+            setNeedsLogin(true);
+            setLoading(false);
+            return;
+          }
+          setError(msg);
           setLoading(false);
           return;
         }
@@ -87,6 +95,19 @@ export default function AccountPage() {
       ...prev,
       [name]: value,
     }));
+  }
+
+  async function handleLogoutClick() {
+    try {
+      if (typeof window === "undefined") return;
+      await logout();
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      // ensure client is cleared and redirect to home
+      clearAuth();
+      window.location.href = "/";
+    }
   }
 
   async function handleAddAddressSubmit(e) {
@@ -191,6 +212,15 @@ export default function AccountPage() {
                 {profile.email}
               </span>
             </div>
+          )}
+          {profile && (
+            <button
+              type="button"
+              onClick={handleLogoutClick}
+              className="ml-3 rounded-full border border-[#f34332] px-3 py-1 text-xs sm:text-sm font-semibold text-[#f34332] hover:bg-[#fef0eb] transition-colors duration-150"
+            >
+              Logout
+            </button>
           )}
         </div>
       </header>

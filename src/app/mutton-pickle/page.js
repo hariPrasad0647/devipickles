@@ -8,6 +8,8 @@ import { Playfair_Display, DM_Sans } from "next/font/google";
 import ProductDescription from "./Description";
 import Footer from "./Footer";
 import FAQs from "./FAQ";
+import Reviews from "../components/Reviews";
+import { PRODUCTS } from "../utils/products";
 import { toast } from "react-hot-toast";
 import AuthModal from "../components/AuthModal";
 
@@ -107,7 +109,7 @@ export default function ProductOrderSection() {
 
   function handleAddToCart() {
     const payload = {
-      productId: "devi-spicy-chicken-pickle",
+      productId: PRODUCTS.MUTTON_PICKLE.id,
       name: "Devi Spicy Mutton Pickle",
       weight: selectedWeight.label,
       packing: pack,
@@ -143,7 +145,7 @@ export default function ProductOrderSection() {
         amount: totalPrice,
         currency: "INR",
         notes: {
-          productId: "devi-spicy-chicken-pickle",
+          productId: PRODUCTS.MUTTON_PICKLE.id,
           weight: selectedWeight?.label,
           pack,
           qty,
@@ -204,7 +206,7 @@ export default function ProductOrderSection() {
           try {
             const items = [
               {
-                productId: "devi-spicy-chicken-pickle",
+                productId: PRODUCTS.MUTTON_PICKLE.id,
                 name: "Devi Spicy Mutton Pickle",
                 qty,
                 price: basePrice,
@@ -446,6 +448,9 @@ export default function ProductOrderSection() {
         </div>
 
         <ProductDescription playfairClass={playfair.className} />
+        <div className="mt-6">
+          <Reviews productId={PRODUCTS.MUTTON_PICKLE.id} />
+        </div>
         <FAQs className="mt-8" />
         <Footer />
       </section >

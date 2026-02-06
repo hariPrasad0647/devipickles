@@ -7,6 +7,7 @@ import { FaUser } from "react-icons/fa6";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import AuthModal from "./AuthModal";
+import { logout, clearAuth } from "../utils/auth";
 import { DM_Sans } from "next/font/google";
 import Link from "next/link";
 
@@ -45,6 +46,18 @@ export default function Navbar() {
       setAuthModalOpen(true);   // open login modal
     }
   };
+
+  async function handleLogout() {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("[Navbar] logout error:", err);
+    } finally {
+      clearAuth();
+      setIsLoggedIn(false);
+      router.push("/");
+    }
+  }
 
 
   const handleAuthSuccess = () => {
@@ -102,10 +115,19 @@ export default function Navbar() {
                 </li>
               </Link>
               <li
-                onClick={handleUserClick}
-                className="cursor-pointer hover:text-red-400 transition flex items-center"
+                className="cursor-pointer hover:text-red-400 transition flex items-center gap-2"
               >
-                <FaUser className="text-[18px]" />
+                <div onClick={handleUserClick} className="flex items-center">
+                  <FaUser className="text-[18px]" />
+                </div>
+                {isLoggedIn && (
+                  <button
+                    onClick={handleLogout}
+                    className="hidden sm:inline-flex items-center rounded-full border border-[#f34332] px-3 py-1 text-xs font-semibold text-[#f34332] hover:bg-[#fef0eb] transition-colors"
+                  >
+                    Logout
+                  </button>
+                )}
               </li>
             </ul>
           </div>
@@ -164,6 +186,14 @@ export default function Navbar() {
                   {isLoggedIn ? "My Account" : "Login / Signup"}
                 </span>
               </li>
+              {isLoggedIn && (
+                <li
+                  className="cursor-pointer hover:text-red-500 transition flex items-center pt-1"
+                  onClick={handleLogout}
+                >
+                  <span className="text-sm">Logout</span>
+                </li>
+              )}
             </ul>
           </div>
         </div>
